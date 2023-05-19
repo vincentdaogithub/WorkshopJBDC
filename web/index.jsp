@@ -15,7 +15,7 @@
 
         <main>
             <div class="loginContainer">
-                <form action="/WorkshopJDBC?a=login" method="post">
+                <form action="/WorkshopJDBC/?a=login" method="post">
                     <div class="inputContainer">
                         <label for="txtUserID">User ID</label>
                         <input id="txtUserID" type="text" name="txtUserID" placeholder="user ID..." required />

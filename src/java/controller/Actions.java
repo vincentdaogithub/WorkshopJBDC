@@ -4,37 +4,37 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 
-public enum Pages {
+public enum Actions {
 
-    WELCOME("welcome", "/index.jsp");
+    LOGIN("login", "/LoginServlet");
 
     private static final Logger LOGGER = Logger.getLogger(Pages.class.getName());
 
-    private final String page;
+    private final String action;
     private final String url;
 
-    Pages(String page, String url) {
-        this.page = page;
+    Actions(String action, String url) {
+        this.action = action;
         this.url = url;
     }
 
-    public String getPage() {
-        return page;
+    public String getAction() {
+        return action;
     }
 
     public String getUrl() {
         return url;
     }
 
-    public static final Pages convertPage(String page) {
-        if (page == null) {
+    public static final Actions convertPage(String action) {
+        if (action == null) {
             LOGGER.log(Level.INFO, "Null input");
             return null;
         }
 
-        for (Pages p : Pages.values()) {
-            if (p.getPage().equals(page)) {
-                return p;
+        for (Actions a : Actions.values()) {
+            if (a.getAction().equals(action)) {
+                return a;
             }
         }
 
