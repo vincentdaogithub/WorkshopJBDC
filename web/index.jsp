@@ -1,4 +1,6 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="f" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 
 <html>
@@ -14,21 +16,33 @@
         </header>
 
         <main>
-            <div class="loginContainer">
-                <form action="/WorkshopJDBC/?a=login" method="post">
-                    <div class="inputContainer">
-                        <label for="txtUserID">User ID</label>
-                        <input id="txtUserID" type="text" name="txtUserID" placeholder="user ID..." required />
-                    </div>
+            <c:choose>
+                <c:when test="${user != null && user.role == 0}">
+                    <a href="/WorkshopJDBC/?p=user">Go to User page</a>
+                </c:when>
 
-                    <div class="input">
-                        <label for="txtPassword">Password</label>
-                        <input id="txtPassword" type="password" name="txtPassword" placeholder="password..." required />
-                    </div>
+                <c:otherwise>
+                    <div class="loginContainer">
+                        <form action="/WorkshopJDBC/?a=login" method="post">
+                            <div class="inputContainer">
+                                <label for="txtUserID">User ID</label>
+                                <input id="txtUserID" type="text" name="txtUserID" value="${f:escapeXml(prevTxtUserID)}" placeholder="user ID..." required />
+                            </div>
 
-                    <input type="submit" value="Submit" />
-                </form>
-            </div>
+                            <div class="input">
+                                <label for="txtPassword">Password</label>
+                                <input id="txtPassword" type="password" name="txtPassword" value="${f:escapeXml(prevTxtPassword)}" placeholder="password..." required />
+                            </div>
+
+                            <c:if test="${isInvalidLogin}">
+                                <p>Invalid User ID or Password</p>
+                            </c:if>
+
+                            <input type="submit" value="Submit" />
+                        </form>
+                    </div>
+                </c:otherwise>
+            </c:choose>
         </main>
     </body>
 </html>

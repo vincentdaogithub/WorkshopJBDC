@@ -35,7 +35,13 @@ public class Controller implements Filter {
         if (p != null) {
             req.getRequestDispatcher(p.getUrl()).forward(request, response);
         } else {
-            req.getRequestDispatcher(Pages.WELCOME.getUrl()).forward(request, response);
+            Pages pageRequested = (Pages) req.getAttribute("p");
+            
+            if (pageRequested != null) {
+                req.getRequestDispatcher(pageRequested.getUrl()).forward(request, response);
+            } else {
+                req.getRequestDispatcher(Pages.WELCOME.getUrl()).forward(request, response);
+            }
         }
     }
 

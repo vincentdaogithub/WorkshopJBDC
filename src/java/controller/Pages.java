@@ -6,7 +6,8 @@ import java.util.logging.Logger;
 
 public enum Pages {
 
-    WELCOME("welcome", "/index.jsp");
+    WELCOME("welcome", "/index.jsp"),
+    USER("user", "/user.jsp");
 
     private static final Logger LOGGER = Logger.getLogger(Pages.class.getName());
 

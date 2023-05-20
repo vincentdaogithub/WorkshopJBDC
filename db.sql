@@ -35,5 +35,5 @@ VALUES ('M0000', 'First phone ever', 10.0, 'Nokia 3310', 2000, 10, 0);
 GO
 
 INSERT INTO tbl_User
-VALUES ('admin', 12345, 'admin', 1);
+VALUES ('John Doe', 12345, 'John Doe', 0);
 GO

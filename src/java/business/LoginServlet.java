@@ -1,5 +1,7 @@
 package business;
 
+import controller.Pages;
+import controller.Users;
 import dao.UserDAO;
 import java.io.IOException;
 import java.rmi.ServerException;
@@ -37,8 +39,27 @@ public class LoginServlet extends HttpServlet {
             LOGGER.log(Level.INFO, "Can''t get user [{0}; {1}]", new Object[]{txtUserID, txtPassword});
             request.setAttribute("prevTxtUserID", txtUserID);
             request.setAttribute("prevTxtPassword", txtPassword);
+            request.setAttribute("isInvalidLogin", true);
         } else {
             request.getSession().setAttribute("user", user);
+            Users userRole = Users.convertRole(user.getRole());
+
+            switch (userRole) {
+                case USER:
+                    request.setAttribute("p", Pages.USER);
+                    break;
+
+                case MANAGER:
+                    LOGGER.log(Level.SEVERE, "Manager role hasn't been implemented");
+                    break;
+
+                case STAFF:
+                    request.setAttribute("p", Pages.WELCOME);
+                    break;
+
+                default:
+                    LOGGER.log(Level.SEVERE, "Unknown role detected");
+            }
         }
     }
 }
