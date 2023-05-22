@@ -1,4 +1,5 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="controller.Users" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="f" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
@@ -17,7 +18,7 @@
 
         <main>
             <c:choose>
-                <c:when test="${user != null && user.role == 0}">
+                <c:when test="${user != null && user.role == Users.USER.roleID}">
                     <a href="/WorkshopJDBC/?p=user">Go to User page</a>
                 </c:when>
 

@@ -41,7 +41,6 @@ public class UserDAO {
 
                     User user = new User(
                             result.getString("userID"),
-                            result.getInt("password"),
                             result.getString("fullName"),
                             result.getInt("role")
                     );

@@ -19,9 +19,9 @@ public class User implements Serializable {
         this.role = 0;
     }
 
-    public User(String userID, int password, String fullName, int role) {
+    public User(String userID, String fullName, int role) {
         this.userID = userID;
-        this.password = password;
+        this.password = 0;
         this.fullName = fullName;
         this.role = role;
     }
@@ -84,6 +84,6 @@ public class User implements Serializable {
 
     @Override
     public String toString() {
-        return "User - [" + userID + "; " + password + "; " + fullName + "; " + role + "]";
+        return "User - [" + userID + "; " + fullName + "; " + role + "]";
     }
 }

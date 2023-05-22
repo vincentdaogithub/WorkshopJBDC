@@ -22,7 +22,7 @@ public class Controller implements Filter {
             FilterChain chain)
             throws IOException, ServletException {
         HttpServletRequest req = (HttpServletRequest) request;
-        Actions a = Actions.convertPage(req.getParameter("a"));
+        Actions a = Actions.convertAction(req.getParameter("a"));
 
         if (a != null) {
             req.getRequestDispatcher(a.getUrl()).include(request, response);

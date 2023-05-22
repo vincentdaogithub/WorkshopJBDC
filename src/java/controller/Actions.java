@@ -26,7 +26,7 @@ public enum Actions {
         return url;
     }
 
-    public static final Actions convertPage(String action) {
+    public static final Actions convertAction(String action) {
         if (action == null) {
             LOGGER.log(Level.INFO, "Null input");
             return null;
