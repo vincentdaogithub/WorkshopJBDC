@@ -20,6 +20,9 @@ public class MobileDAO {
     private static final String GET_MOBILES_MIN_MAX = "SELECT * FROM tbl_Mobile "
             + "WHERE price BETWEEN ? AND ?";
 
+    private static final String GET_MOBILE = "SELECT * FROM tbl_Mobile "
+            + "WHERE mobileID = ?";
+
     public static final List<Mobile> getMobiles() {
         try (
                 Connection con = DBUtils.getConnection();
@@ -48,6 +51,42 @@ public class MobileDAO {
         } catch (Exception e) {
             LOGGER.log(Level.SEVERE, "Can't get mobiles");
             return new ArrayList<>();
+        }
+    }
+
+    public static final Mobile getMobile(String mobileID) {
+        if (mobileID == null) {
+            LOGGER.log(Level.SEVERE, "Null mobileID at {0}", MobileDAO.class.getName());
+            return null;
+        }
+
+        try (
+                Connection con = DBUtils.getConnection();
+        ) {
+            con.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
+
+            try (
+                    PreparedStatement pst = con.prepareStatement(GET_MOBILE)
+            ) {
+                pst.setString(1, mobileID);
+                ResultSet result = pst.executeQuery();
+
+                if (result.next()) {
+                    return new Mobile(result.getString("mobileID"),
+                            result.getString("description"),
+                            result.getFloat("price"),
+                            result.getString("mobileName"),
+                            result.getInt("yearOfProduction"),
+                            result.getInt("quantity"),
+                            result.getBoolean("notSale")
+                    );
+                }
+
+                return null;
+            }
+        } catch (Exception e) {
+            LOGGER.log(Level.SEVERE, "Can't get mobiles");
+            return null;
         }
     }
 
@@ -86,6 +125,31 @@ public class MobileDAO {
         } catch (Exception e) {
             LOGGER.log(Level.SEVERE, "Can't get mobiles");
             return new ArrayList<>();
+        }
+    }
+
+    public static final boolean isMobileExist(String mobileID) {
+        if (mobileID == null) {
+            LOGGER.log(Level.SEVERE, "Null mobileID at {0}", MobileDAO.class.getName());
+            return false;
+        }
+
+        try (
+                Connection con = DBUtils.getConnection();
+        ) {
+            con.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
+
+            try (
+                    PreparedStatement pst = con.prepareStatement(GET_MOBILE)
+            ) {
+                pst.setString(1, mobileID);
+                ResultSet results = pst.executeQuery();
+
+                return results.next();
+            }
+        } catch (Exception e) {
+            LOGGER.log(Level.SEVERE, e.getMessage());
+            return false;
         }
     }
 }

@@ -22,6 +22,12 @@ public class Controller implements Filter {
             FilterChain chain)
             throws IOException, ServletException {
         HttpServletRequest req = (HttpServletRequest) request;
+
+        if (req.getRequestURI().lastIndexOf('.') > 0) {
+            chain.doFilter(request, response);
+            return;
+        }
+
         Actions a = Actions.convertAction(req.getParameter("a"));
 
         if (a != null) {
@@ -36,7 +42,7 @@ public class Controller implements Filter {
             req.getRequestDispatcher(p.getUrl()).forward(request, response);
         } else {
             Pages pageRequested = (Pages) req.getAttribute("p");
-            
+
             if (pageRequested != null) {
                 req.getRequestDispatcher(pageRequested.getUrl()).forward(request, response);
             } else {

@@ -15,7 +15,7 @@ import utils.ParseUtils;
 
 public class SearchServlet extends HttpServlet {
 
-    private static final Logger LOGGER = Logger.getLogger(LoginServlet.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(SearchServlet.class.getName());
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)

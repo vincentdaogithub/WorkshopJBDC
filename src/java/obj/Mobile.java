@@ -1,6 +1,8 @@
 package obj;
 
 import java.io.Serializable;
+import java.util.Objects;
+import utils.ParseUtils;
 
 
 public class Mobile implements Serializable {
@@ -140,5 +142,25 @@ public class Mobile implements Serializable {
         return "Mobile - [" + mobileID + "; " + price + "; " + mobileName
                 + "; " + yearOfProduction + "; " + quantity + "; "
                 + notSale + "]";
+    }
+
+    @Override
+    public int hashCode() {
+        return ParseUtils.parseInt(mobileID.substring(1));
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Mobile other = (Mobile) obj;
+        return Objects.equals(this.mobileID, other.mobileID);
     }
 }

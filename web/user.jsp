@@ -9,6 +9,7 @@
         <title>User</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="main.css" />
     </head>
 
     <body>
@@ -17,6 +18,8 @@
         </header>
 
         <main>
+            <a href="/WorkshopJDBC/?p=cart">To cart</a>
+
             <section class="search-container">
                 <form action="/WorkshopJDBC/?a=search&s=price-min-max&p=user" method="post">
                     <p>Search by price</p>
@@ -44,31 +47,33 @@
                     </c:when>
 
                     <c:otherwise>
-                        <div class="mobile-item-header">
-                            <p>No.</p>
-                            <p>ID</p>
-                            <p>Description</p>
-                            <p>Price</p>
-                            <p>Name</p>
-                            <p>Year Of Production</p>
-                            <p>Quantity</p>
-                            <p>In Sale</p>
-                            <p>Add To Cart</p>
-                        </div>
+                        <table>
+                            <tr>
+                                <th>No.</th>
+                                <th>ID</th>
+                                <th>Description</th>
+                                <th>Price</th>
+                                <th>Name</th>
+                                <th>Year Of Production</th>
+                                <th>Quantity</th>
+                                <th>In Sale</th>
+                                <th>Add To Cart</th>
+                            </tr>
 
-                        <c:forEach items="${mobiles}" var="mobile" varStatus="i">
-                            <div class="mobile-item">
-                                <p>${i.count}</p>
-                                <p>${f:escapeXml(mobile.mobileID)}</p>
-                                <p>${f:escapeXml(mobileDescription)}</p>
-                                <p><fmt:formatNumber type="currency" value="${mobile.price}" currencySymbol="$" /></p>
-                                <p>${f:escapeXml(mobile.mobileName)}</p>
-                                <p>${mobile.yearOfProduction}</p>
-                                <p>${mobile.quantity}</p>
-                                <p>${mobile.notSale ? "No" : "Yes"}</p>
-                                <a href="/WorkshopJDBC/?a=cart&c=add&mid=${mobile.mobileID}">Add</a>
-                            </div>
-                        </c:forEach>
+                            <c:forEach items="${mobiles}" var="mobile" varStatus="i">
+                                <tr>
+                                    <td>${i.count}</td>
+                                    <td>${f:escapeXml(mobile.mobileID)}</td>
+                                    <td>${f:escapeXml(mobile.description)}</td>
+                                    <td><fmt:formatNumber type="currency" value="${mobile.price}" currencySymbol="$" /></td>
+                                    <td>${f:escapeXml(mobile.mobileName)}</td>
+                                    <td>${mobile.yearOfProduction}</td>
+                                    <td>${mobile.quantity}</td>
+                                    <td>${mobile.notSale ? "No" : "Yes"}</td>
+                                    <td><a href="/WorkshopJDBC/?a=cart&c=add&mid=${mobile.mobileID}&p=cart">Add</a></td>
+                                </tr>
+                            </c:forEach>
+                        </table>
                     </c:otherwise>
                 </c:choose>
             </section>

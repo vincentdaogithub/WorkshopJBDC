@@ -1,8 +1,8 @@
 package business;
 
 import controller.CartActions;
+import dao.MobileDAO;
 import java.io.IOException;
-import java.rmi.ServerException;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -12,25 +12,14 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import obj.Mobile;
 
 
 public class CartServlet extends HttpServlet {
 
-    private static final Logger LOGGER = Logger.getLogger(LoginServlet.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(CartServlet.class.getName());
 
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
-        LOGGER.log(Level.SEVERE, "{0} does not support GET", this.getServletName());
-        throw new ServerException(this.getServletName() + " does not support GET");
-    }
-
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-
         CartActions c = CartActions.convertAction(request.getParameter("c"));
 
         if (c == null) {
@@ -40,27 +29,48 @@ public class CartServlet extends HttpServlet {
         }
 
         Object cartSession = request.getSession().getAttribute("cart");
-        Map<Mobile, Integer> workingCart;
+        Map<String, Integer> workingCart;
 
         if (cartSession == null) {
-            Map<Mobile, Integer> newCart = Collections.synchronizedMap(new HashMap<>());
+            Map<String, Integer> newCart = Collections.synchronizedMap(new HashMap<>());
             request.getSession().setAttribute("cart", newCart);
             workingCart = newCart;
         } else {
-            workingCart = (Map<Mobile, Integer>) cartSession;
+            workingCart = (Map<String, Integer>) cartSession;
         }
 
         synchronized (workingCart) {
+            String mid = request.getParameter("mid");
+
+            if (mid.trim().isEmpty() || !MobileDAO.isMobileExist(mid)) {
+                LOGGER.log(Level.WARNING, "Invalid mobile ID");
+                return;
+            }
+
             switch (c) {
                 case ADD:
+                    workingCart.merge(mid, 1, Integer::sum);
                     break;
 
                 case  REMOVE:
+                    workingCart.merge(mid, -1, Integer::sum);
                     break;
 
                 default:
-                    break;
+                    LOGGER.log(Level.SEVERE, "Unknown action");
             }
         }
+    }
+
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        processRequest(request, response);
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        processRequest(request, response);
     }
 }

@@ -1,0 +1,7 @@
+html {
+    font-size: 18px;
+}
+
+table, td, th {
+    border: 2px solid #000;
+}
