@@ -17,26 +17,8 @@
         </header>
 
         <main>
-            <section class="search-container">
-                <form action="/WorkshopJDBC/?a=search&s=price-min-max&p=user" method="post">
-                    <p>Search by price</p>
-
-                    <div class="input search-input">
-                        <label for="min">Min</label>
-                        <input id="min" type="number" name="numMin" step="0.01" placeholder="min price..." />
-                    </div>
-
-                    <div class="input search-input">
-                        <label for="max">Max</label>
-                        <input id="max" type="number" name="numMax" step="0.01" placeholder="max price..." />
-                    </div>
-
-                    <input type="submit" value="Search" />
-                </form>
-            </section>
-
-            <section class="mobiles-container">
-                <h2>Mobile list</h2>
+            <section class="cart-container">
+                <h2>Cart list</h2>
 
                 <c:choose>
                     <c:when test="${empty mobiles}">
@@ -56,7 +38,7 @@
                             <p>Add To Cart</p>
                         </div>
 
-                        <c:forEach items="${mobiles}" var="mobile" varStatus="i">
+                        <c:forEach items="${cart}" var="mobile" varStatus="i">
                             <div class="mobile-item">
                                 <p>${i.count}</p>
                                 <p>${f:escapeXml(mobile.mobileID)}</p>

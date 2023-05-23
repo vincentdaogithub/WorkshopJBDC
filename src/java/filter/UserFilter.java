@@ -4,7 +4,6 @@ import controller.Pages;
 import controller.Users;
 import dao.MobileDAO;
 import java.io.IOException;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.Filter;
@@ -14,7 +13,6 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
-import obj.Mobile;
 import obj.User;
 
 
@@ -38,13 +36,9 @@ public class UserFilter implements Filter {
             return;
         }
 
-        List<Mobile> mobiles = MobileDAO.getMobiles();
-
-        if (mobiles == null) {
-            LOGGER.log(Level.SEVERE, "Null mobiles in {0}", UserFilter.class.getName());
+        if (req.getAttribute("mobiles") == null) {
+            req.setAttribute("mobiles", MobileDAO.getMobiles());
         }
-
-        req.setAttribute("mobiles", mobiles);
 
         chain.doFilter(request, response);
     }

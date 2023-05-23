@@ -4,37 +4,30 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 
-public enum Actions {
+public enum CartActions {
 
-    LOGIN("login", "/LoginServlet"),
-    SEARCH("search", "/SearchServlet"),
-    CART("cart", "/CartServlet");
+    ADD("add"),
+    REMOVE("remove");
 
-    private static final Logger LOGGER = Logger.getLogger(Pages.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(Searches.class.getName());
 
     private final String action;
-    private final String url;
 
-    Actions(String action, String url) {
+    CartActions(String action) {
         this.action = action;
-        this.url = url;
     }
 
     public String getAction() {
         return action;
     }
 
-    public String getUrl() {
-        return url;
-    }
-
-    public static final Actions convertAction(String action) {
+    public static final CartActions convertAction(String action) {
         if (action == null) {
             LOGGER.log(Level.INFO, "Null input");
             return null;
         }
 
-        for (Actions a : Actions.values()) {
+        for (CartActions a : CartActions.values()) {
             if (a.getAction().equals(action)) {
                 return a;
             }

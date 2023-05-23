@@ -13,8 +13,16 @@ public class ParseUtils {
             return Integer.parseInt(input);
         } catch (NumberFormatException e) {
             LOGGER.log(Level.WARNING, "Conversion of invalid number");
+            return null;
         }
-        
-        return null;
+    }
+
+    public static final Float parseFloat(String input) {
+        try {
+            return Float.parseFloat(input);
+        } catch (NumberFormatException e) {
+            LOGGER.log(Level.WARNING, "Conversion of invalid number");
+            return null;
+        }
     }
 }
