@@ -4,16 +4,17 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 
-public enum CartActions {
+public enum MobileActions {
 
     ADD("add"),
-    REMOVE("remove");
+    REMOVE("remove"),
+    UPDATE("update");
 
-    private static final Logger LOGGER = Logger.getLogger(CartActions.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(MobileActions.class.getName());
 
     private final String action;
 
-    CartActions(String action) {
+    MobileActions(String action) {
         this.action = action;
     }
 
@@ -21,13 +22,13 @@ public enum CartActions {
         return action;
     }
 
-    public static final CartActions convertAction(String action) {
+    public static final MobileActions convertAction(String action) {
         if (action == null) {
             LOGGER.log(Level.INFO, "Null input");
             return null;
         }
 
-        for (CartActions a : CartActions.values()) {
+        for (MobileActions a : MobileActions.values()) {
             if (a.getAction().equals(action)) {
                 return a;
             }

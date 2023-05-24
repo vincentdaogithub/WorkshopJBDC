@@ -54,7 +54,7 @@ public class LoginServlet extends HttpServlet {
                     break;
 
                 case STAFF:
-                    request.setAttribute("p", Pages.WELCOME);
+                    request.setAttribute("p", Pages.STAFF);
                     break;
 
                 default:

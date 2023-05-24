@@ -8,7 +8,9 @@ public enum Pages {
 
     WELCOME("welcome", "/index.jsp"),
     USER("user", "/user.jsp"),
-    CART("cart", "/cart.jsp");
+    CART("cart", "/cart.jsp"),
+    STAFF("staff", "/staff.jsp"),
+    CREATE("create", "/create.jsp");
 
     private static final Logger LOGGER = Logger.getLogger(Pages.class.getName());
 

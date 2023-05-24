@@ -14,11 +14,11 @@
 
     <body>
         <header>
-            <h1>User</h1>
+            <h1>Cart</h1>
         </header>
 
         <main>
-            <a href="/WorkshopJDBC/?p=user">Back</a>
+            <a href="/WorkshopJDBC/?p=user">Back to User</a>
 
             <section class="cart-container">
                 <h2>Cart list</h2>
@@ -62,4 +62,3 @@
         </main>
     </body>
 </html>
-

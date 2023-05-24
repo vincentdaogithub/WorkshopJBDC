@@ -12,6 +12,16 @@
         <filter-name>UserFilter</filter-name>
         <filter-class>filter.UserFilter</filter-class>
     </filter>
+    <filter>
+        <filter-name>StaffFilter</filter-name>
+        <filter-class>filter.StaffFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>StaffFilter</filter-name>
+        <url-pattern>/staff.jsp</url-pattern>
+        <dispatcher>REQUEST</dispatcher>
+        <dispatcher>FORWARD</dispatcher>
+    </filter-mapping>
     <filter-mapping>
         <filter-name>CartFilter</filter-name>
         <url-pattern>/cart.jsp</url-pattern>
@@ -41,6 +51,14 @@
         <servlet-name>CartServlet</servlet-name>
         <servlet-class>business.CartServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>MobileServlet</servlet-name>
+        <servlet-class>business.MobileServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>CreateServlet</servlet-name>
+        <servlet-class>business.CreateServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/LoginServlet</url-pattern>
@@ -52,6 +70,14 @@
     <servlet-mapping>
         <servlet-name>CartServlet</servlet-name>
         <url-pattern>/CartServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>MobileServlet</servlet-name>
+        <url-pattern>/MobileServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CreateServlet</servlet-name>
+        <url-pattern>/CreateServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

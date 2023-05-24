@@ -8,9 +8,11 @@ public enum Actions {
 
     LOGIN("login", "/LoginServlet"),
     SEARCH("search", "/SearchServlet"),
-    CART("cart", "/CartServlet");
+    CART("cart", "/CartServlet"),
+    MOBILE("mobile", "/MobileServlet"),
+    CREATE("create", "/CreateServlet");
 
-    private static final Logger LOGGER = Logger.getLogger(Pages.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(Actions.class.getName());
 
     private final String action;
     private final String url;

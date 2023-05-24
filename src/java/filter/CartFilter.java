@@ -67,6 +67,11 @@ public class CartFilter implements Filter {
                     result.add(new AbstractMap.SimpleEntry<>(addMobile, i.getValue()));
                 }
 
+                result.sort((mobile1, mobile2) -> {
+                    return mobile1.getKey().getMobileID()
+                            .compareTo(mobile2.getKey().getMobileID());
+                });
+                
                 req.setAttribute("cart", result);
             }
         }

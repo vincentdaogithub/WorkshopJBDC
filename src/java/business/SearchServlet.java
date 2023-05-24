@@ -1,6 +1,6 @@
 package business;
 
-import controller.Searches;
+import controller.MobileSearches;
 import dao.MobileDAO;
 import java.io.IOException;
 import java.rmi.ServerException;
@@ -29,23 +29,48 @@ public class SearchServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        Searches s = Searches.convertSearch(request.getParameter("s"));
-
+        MobileSearches s = MobileSearches.convertSearch(request.getParameter("s"));
         if (s == null) {
             LOGGER.log(Level.WARNING, "Invalid search type");
             request.setAttribute("isInvalidSearch", true);
             return;
         }
 
-        Float min = ParseUtils.parseFloat(request.getParameter("numMin"));
-        Float max = ParseUtils.parseFloat(request.getParameter("numMax"));
+        switch (s) {
+            case PRICE_MIN_MAX:
+                searchPrice(request);
+                break;
 
+            case ID:
+                searchMobileID(request);
+                break;
+
+            case NAME:
+                searchMobileName(request);
+                break;
+
+            default:
+                LOGGER.log(Level.SEVERE, "Invalid action");
+        }
+    }
+
+    private void searchPrice(HttpServletRequest req) {
+        Float min = ParseUtils.parseFloat(req.getParameter("numMin"));
+        Float max = ParseUtils.parseFloat(req.getParameter("numMax"));
         if (min == null || max == null) {
-            LOGGER.log(Level.WARNING, "Null min max");
-            request.setAttribute("isInvalidSearch", true);
+            LOGGER.log(Level.WARNING, "Invalid min max");
             return;
         }
+        req.setAttribute("mobiles", MobileDAO.getMobilesPriceMinMax(min, max));
+    }
 
-        request.setAttribute("mobiles", MobileDAO.getMobilesPriceMinMax(min, max));
+    private void searchMobileID(HttpServletRequest req) {
+        String mobileID = req.getParameter("txtMobileID");
+        req.setAttribute("mobiles", MobileDAO.getMobilesID(mobileID));
+    }
+
+    private void searchMobileName(HttpServletRequest req) {
+        String mobileName = req.getParameter("txtMobileName");
+        req.setAttribute("mobiles", MobileDAO.getMobilesName(mobileName));
     }
 }

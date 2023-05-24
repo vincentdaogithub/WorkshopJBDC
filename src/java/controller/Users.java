@@ -10,7 +10,7 @@ public enum Users {
     MANAGER("manager", 1),
     STAFF("staff", 2);
 
-    private static final Logger LOGGER = Logger.getLogger(Pages.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(Users.class.getName());
 
     private final String role;
     private final int roleID;

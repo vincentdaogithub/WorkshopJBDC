@@ -23,8 +23,7 @@ public class CartServlet extends HttpServlet {
         CartActions c = CartActions.convertAction(request.getParameter("c"));
 
         if (c == null) {
-            LOGGER.log(Level.WARNING, "Invalid search type");
-            request.setAttribute("isInvalidSearch", true);
+            LOGGER.log(Level.WARNING, "Invalid action");
             return;
         }
 
@@ -39,14 +38,14 @@ public class CartServlet extends HttpServlet {
             workingCart = (Map<String, Integer>) cartSession;
         }
 
+        String mid = request.getParameter("mid");
+
+        if (mid.trim().isEmpty() || !MobileDAO.isMobileExist(mid)) {
+            LOGGER.log(Level.WARNING, "Invalid mobile ID");
+            return;
+        }
+
         synchronized (workingCart) {
-            String mid = request.getParameter("mid");
-
-            if (mid.trim().isEmpty() || !MobileDAO.isMobileExist(mid)) {
-                LOGGER.log(Level.WARNING, "Invalid mobile ID");
-                return;
-            }
-
             switch (c) {
                 case ADD:
                     workingCart.merge(mid, 1, Integer::sum);

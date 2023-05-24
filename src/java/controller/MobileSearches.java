@@ -4,15 +4,17 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 
-public enum Searches {
+public enum MobileSearches {
 
-    PRICE_MIN_MAX("price-min-max");
+    PRICE_MIN_MAX("price-min-max"),
+    ID("id"),
+    NAME("name");
 
-    private static final Logger LOGGER = Logger.getLogger(Searches.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(MobileSearches.class.getName());
 
     private final String search;
 
-    Searches(String search) {
+    MobileSearches(String search) {
         this.search = search;
     }
 
@@ -20,13 +22,13 @@ public enum Searches {
         return search;
     }
 
-    public static final Searches convertSearch(String search) {
+    public static final MobileSearches convertSearch(String search) {
         if (search == null) {
             LOGGER.log(Level.INFO, "Null input");
             return null;
         }
 
-        for (Searches s : Searches.values()) {
+        for (MobileSearches s : MobileSearches.values()) {
             if (s.getSearch().equals(search)) {
                 return s;
             }
