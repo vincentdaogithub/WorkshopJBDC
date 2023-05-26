@@ -32,13 +32,13 @@ GO
 
 CREATE TABLE tbl_Cart (
     cartID VARCHAR(20) PRIMARY KEY,
-    userID VARCHAR(20) FOREIGN KEY REFERENCES tbl_User(userID)
+    userID VARCHAR(20) FOREIGN KEY REFERENCES tbl_User(userID) ON DELETE CASCADE
 );
 GO
 
 CREATE TABLE tbl_CartDetail (
-    cartID VARCHAR(20) FOREIGN KEY REFERENCES tbl_Cart(cartID),
-    mobileID VARCHAR(10) FOREIGN KEY REFERENCES tbl_Mobile(mobileID),
+    cartID VARCHAR(20) FOREIGN KEY REFERENCES tbl_Cart(cartID) ON DELETE CASCADE,
+    mobileID VARCHAR(10) FOREIGN KEY REFERENCES tbl_Mobile(mobileID) ON DELETE CASCADE,
     quantity INT NOT NULL,
     CONSTRAINT UC_CartDetail UNIQUE(cartID, mobileID)
 )
@@ -54,4 +54,15 @@ INSERT INTO tbl_User
 VALUES
     ('John Doe', 12345, 'John Doe', 0),
     ('Jane Doe', 12345, 'Jane Doe', 2);
+GO
+
+INSERT INTO tbl_Cart
+VALUES
+    ('C0000', 'John Doe');
+GO
+
+INSERT INTO tbl_CartDetail
+VALUES
+    ('C0000', 'M0000', 5),
+    ('C0000', 'M0002', 10);
 GO

@@ -2,12 +2,11 @@ package filter;
 
 import controller.Pages;
 import controller.Users;
+import dao.CartDAO;
 import dao.MobileDAO;
 import java.io.IOException;
 import java.util.AbstractMap;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
@@ -19,6 +18,8 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import obj.Cart;
 import obj.Mobile;
 import obj.User;
 
@@ -34,46 +35,29 @@ public class CartFilter implements Filter {
             FilterChain chain)
             throws IOException, ServletException {
         HttpServletRequest req = (HttpServletRequest) request;
+        HttpServletResponse res = (HttpServletResponse) response;
 
-        User user = (User) req.getSession().getAttribute("user");
-
-        if (user == null || user.getRole() != Users.USER.getRoleID()) {
+        Object user = (User) req.getSession().getAttribute("user");
+        if (user == null || ((User) user).getRole() != Users.USER.getRoleID()) {
             LOGGER.log(Level.WARNING, "Unauthorized access to user page");
             req.getRequestDispatcher(Pages.WELCOME.getUrl()).forward(request, response);
             return;
         }
 
-        Object cart = req.getSession().getAttribute("cart");
-
-        if (cart == null) {
-            Map<String, Integer> newCart = Collections.synchronizedMap(new HashMap<>());
-            req.getSession().setAttribute("cart", newCart);
-            List<Map.Entry<Mobile, Integer>> emptyList = new ArrayList<>();
-            req.setAttribute("cart", emptyList);
+        Cart cartDB = CartDAO.getCart(((User) user).getUserID());
+        if (cartDB.isEmpty()) {
+            req.setAttribute("cart", new ArrayList<>());
         } else {
-            Map<String, Integer> workingCart = (Map<String, Integer>) cart;
-
-            synchronized (workingCart) {
-                List<Map.Entry<Mobile, Integer>> result = new ArrayList<>();
-
-                for (Map.Entry<String, Integer> i : workingCart.entrySet()) {
-                    Mobile addMobile = MobileDAO.getMobile(i.getKey());
-
-                    if (addMobile == null) {
-                        LOGGER.log(Level.SEVERE, "Invalid mobile when convert from mobileID");
-                        break;
-                    }
-
-                    result.add(new AbstractMap.SimpleEntry<>(addMobile, i.getValue()));
+            List<Map.Entry<Mobile, Integer>> results = new ArrayList<>();
+            cartDB.getCartDetails().forEach((e) -> {
+                Mobile mobile = MobileDAO.getMobile(e.getMobileID());
+                if (mobile == null) {
+                    LOGGER.log(Level.SEVERE, "Invalid mobile");
+                } else {
+                    results.add(new AbstractMap.SimpleEntry<>(mobile, e.getQuantity()));
                 }
-
-                result.sort((mobile1, mobile2) -> {
-                    return mobile1.getKey().getMobileID()
-                            .compareTo(mobile2.getKey().getMobileID());
-                });
-                
-                req.setAttribute("cart", result);
-            }
+            });
+            req.setAttribute("cart", results);
         }
 
         chain.doFilter(request, response);
